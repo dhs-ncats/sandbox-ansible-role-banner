@@ -1,2 +1,28 @@
 ---
-# tasks file for skeleton
+# There is no point installing the banner unless sshd is present.
+- name: Install openssh-server
+  ansible.builtin.package:
+    name: openssh-server
+
+- name: Install motd file
+  ansible.builtin.copy:
+    dest: /etc/motd
+    mode: u=rw,g=r,o=r
+    src: motd
+
+- name: Install issue file
+  ansible.builtin.copy:
+    dest: /etc/issue
+    mode: u=rw,g=r,o=r
+    src: issue
+
+- name: Enable banner in sshd
+  ansible.builtin.lineinfile:
+    backrefs: true
+    dest: /etc/ssh/sshd_config
+    line: Banner /etc/issue
+    # We want to use quotes here to avoid having to escape, e.g., the
+    # question mark that is a special character for YAML.
+    # yamllint disable-line rule:quoted-strings
+    regexp: '^.?Banner'
+    state: present
