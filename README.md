@@ -1,16 +1,14 @@
-# skeleton-ansible-role #
+# ansible-role-banner #
 
-[![GitHub Build Status](https://github.com/cisagov/skeleton-ansible-role/workflows/build/badge.svg)](https://github.com/cisagov/skeleton-ansible-role/actions)
-[![License](https://img.shields.io/github/license/cisagov/skeleton-ansible-role)](https://spdx.org/licenses/)
-[![CodeQL](https://github.com/cisagov/skeleton-ansible-role/workflows/CodeQL/badge.svg)](https://github.com/cisagov/skeleton-ansible-role/actions/workflows/codeql-analysis.yml)
+[![GitHub Build Status](https://github.com/cisagov/ansible-role-banner/workflows/build/badge.svg)](https://github.com/cisagov/ansible-role-banner/actions)
+[![License](https://img.shields.io/github/license/cisagov/ansible-role-banner)](https://spdx.org/licenses/)
+[![CodeQL](https://github.com/cisagov/ansible-role-banner/workflows/CodeQL/badge.svg)](https://github.com/cisagov/ansible-role-banner/actions/workflows/codeql-analysis.yml)
 
-This is a skeleton project that can be used to quickly get a new
-[cisagov](https://github.com/cisagov) Ansible role GitHub project
-started.  This skeleton project contains
-[licensing information](LICENSE), as well as
-[pre-commit hooks](https://pre-commit.com) and
-[GitHub Actions](https://github.com/features/actions) configurations
-appropriate for an Ansible role.
+An Ansible role for installing the CISA login banner for the SSH
+server.
+
+> **Note**
+> [OpenSSH](https://www.openssh.com/) is installed as a dependency.
 
 ## Requirements ##
 
@@ -43,8 +41,8 @@ where `requirements.yml` looks like:
 
 ```yaml
 ---
-- name: skeleton
-  src: https://github.com/cisagov/skeleton-ansible-role
+- name: banner
+  src: https://github.com/cisagov/ansible-role-banner
 ```
 
 and may contain other roles as well.
@@ -62,17 +60,10 @@ Here's how to use it in a playbook:
   become: true
   become_method: sudo
   tasks:
-    - name: Include skeleton
+    - name: Install CISA login banner
       ansible.builtin.include_role:
-        name: skeleton
+        name: banner
 ```
-
-## New Repositories from a Skeleton ##
-
-Please see our [Project Setup guide](https://github.com/cisagov/development-guide/tree/develop/project_setup)
-for step-by-step instructions on how to start a new repository from
-a skeleton. This will save you time and effort when configuring a
-new repository!
 
 ## Contributing ##
 
@@ -94,4 +85,4 @@ with this waiver of copyright interest.
 
 ## Author Information ##
 
-First Last - <first.last@gwe.cisa.dhs.gov>
+Mark Feldhousen - <mark.feldhousen@gwe.cisa.dhs.gov>
