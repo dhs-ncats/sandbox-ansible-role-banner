@@ -89,7 +89,7 @@ jobs:
           # only if $BRANCH still equals this value — so a wrong
           # marker can't overwrite anything, only refuse.
           snap=$(printf '%s' "$BODY" \
-            | grep -oE 'lineage-sync:base=[0-9a-f]{40}' | head -1 | cut -d= -f2)
+            | grep -m1 -oE 'lineage-sync:base=[0-9a-f]{40}' | cut -d= -f2)
           embedded="${BASE_REF#lineage/sync-base-}"
           case "$snap" in
             "$embedded"*) ;;
@@ -107,6 +107,15 @@ jobs:
           git push --force-with-lease="refs/heads/$BRANCH:$snap" \
             origin "$HEAD_SHA:refs/heads/$BRANCH"
           echo "published: $BRANCH ${snap:0:12} → ${HEAD_SHA:0:12}"
+
+          # Record the parent tip this sync rebased onto: the next
+          # sync replays only this repo's own delta from here
+          # (rebase --onto), instead of the whole inherited stack.
+          onto=$(printf '%s' "$BODY" \
+            | grep -m1 -oE 'lineage-sync:onto=[0-9a-f]{40}' | cut -d= -f2) || true
+          if [ -n "$onto" ]; then
+            git push -f origin "$onto:refs/tags/lineage/base" || true
+          fi
 
           # Retire the review branches: the decoy, and the sync
           # branch (its content now IS develop; leaving it would trip
